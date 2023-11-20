@@ -19,6 +19,7 @@ import EditContact, {
 } from './routes/edit';
 import { action as destroyAction } from './routes/destroy';
 import Index from './routes';
+import { ThemeProvider } from './theme-context';
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );

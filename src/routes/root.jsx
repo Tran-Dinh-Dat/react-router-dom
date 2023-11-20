@@ -9,7 +9,8 @@ import {
     useSubmit,
 } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { ThemeContext } from '../theme-context'
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -27,6 +28,7 @@ export default function Root() {
     const { contacts, q } = useLoaderData();
     const navigation = useNavigation();
     const submit = useSubmit();
+    const { theme, toggle, dark } = useContext(ThemeContext);
 
     const searching =
         navigation.location &&
@@ -40,7 +42,7 @@ export default function Root() {
 
     return (
         <>
-            <div id="sidebar">
+            <div id="sidebar" style={{ backgroundColor: theme.backgroundColor, color: theme.color }}>
                 <h1>React Router Contacts</h1>
                 <div>
                     <Form id="search-form" role="search">
@@ -106,12 +108,26 @@ export default function Root() {
                         </p>
                     )}
                 </nav>
+                <div>
+                    <button
+                        type="button"
+                        onClick={toggle}
+                        style={{
+                            backgroundColor: theme.backgroundColor,
+                            color: theme.color,
+                            outline: 'none'
+                        }}
+                    >
+                        Toggle to {!dark ? 'Dark' : 'Light'} theme
+                    </button>
+                </div>
             </div>
             <div
                 id="detail"
                 className={
                     navigation.state === "loading" ? "loading" : ""
                 }
+                style={{ backgroundColor: theme.backgroundColor, color: theme.color }}
             >
                 <Outlet />
             </div>
